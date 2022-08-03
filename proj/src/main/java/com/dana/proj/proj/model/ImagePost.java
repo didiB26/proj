@@ -15,6 +15,9 @@ public class ImagePost {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "counting", nullable = false)
+    private int counting = 0;
     /*
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -57,12 +60,20 @@ public class ImagePost {
         this.imageSize = imageSize;
     }
 
+    public int getCounting() {
+        return counting;
+    }
+
+    public void setCounting(int counting) {
+        this.counting = counting;
+    }
+
     @Override
     public String toString() {
         return "ImagePost{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-        //        ", date=" + createDate +
+                ", counting=" + counting +
                 ", imageSize=" + Arrays.toString(imageSize) +
                 '}';
     }
