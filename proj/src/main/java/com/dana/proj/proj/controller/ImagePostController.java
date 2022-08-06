@@ -90,7 +90,7 @@ public class ImagePostController {
             ImagePost imagePost = new ImagePost();
             imagePost.setName(names[0]);
             imagePost.setImageSize(imageData);
-        //    imagePost.setDate(createDate);
+            imagePost.setDate(createDate);
             imagePostService.saveImage(imagePost);
             //vreau reddirect - nu merge -- treaba de jos e folosita vreodata?
             HttpHeaders header = new HttpHeaders();
