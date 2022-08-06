@@ -1,5 +1,7 @@
 package com.dana.proj.proj.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,8 @@ public class ImageComment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id")
+    @JsonBackReference
+    //annotation complet necesara
     private ImagePost imagePost;
 
     public Long getIdComm() {
@@ -40,5 +44,14 @@ public class ImageComment {
 
     public void setImagePost(ImagePost imagePost) {
         this.imagePost = imagePost;
+    }
+
+    @Override
+    public String toString() {
+        return "ImageComment{" +
+                "idComm=" + idComm +
+                ", textComm='" + textComm + '\'' +
+                ", imagePost=" + imagePost +
+                '}';
     }
 }

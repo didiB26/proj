@@ -95,15 +95,16 @@ public class ImagePost {
         comment.setImagePost(null);
     }
 
-
-
     @Override
     public String toString() {
         return "ImagePost{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", counting=" + counting +
+                ", createDate=" + createDate +
                 ", imageSize=" + Arrays.toString(imageSize) +
+                ", comments=" + comments +
                 '}';
     }
+
 }
