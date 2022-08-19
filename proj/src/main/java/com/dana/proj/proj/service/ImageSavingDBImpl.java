@@ -8,11 +8,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.nio.file.Paths;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 @ConditionalOnProperty(prefix = "image", name = "persistence.database", havingValue = "true")
 public class ImageSavingDBImpl implements ImagePersistenceService {
 
