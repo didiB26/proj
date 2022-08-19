@@ -22,6 +22,8 @@ public class ImagePost {
     @Column(name = "create_date", nullable = false)
     private Date createDate;
 
+    @Column(name = "image_path", nullable = true)
+    private String imagePath;
 
     @Lob
     @Column(name = "image_size", length = Integer.MAX_VALUE, nullable = true)
@@ -93,6 +95,14 @@ public class ImagePost {
     public void removeComment(ImageComment comment) {
         comments.remove(comment);
         comment.setImagePost(null);
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     @Override

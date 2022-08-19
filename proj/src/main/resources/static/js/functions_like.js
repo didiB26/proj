@@ -6,6 +6,7 @@
         var file = $("#image").val();
         var form = $("#form").serialize();
     	var data = new FormData($("#form")[0]);
+    	data.append('name', name);
     	//alert(data);
         $('#loader').show();
         if (name === "" || file === "") {
@@ -35,7 +36,7 @@
                         	$("#form")[0].reset();
                         	$('#success').css('display','block');
                             $("#error").text("");
-                            $("#success").html("Image inserted Successfully.");
+                            $("#success").html("Product Inserted Succsessfully.");
                             $('#success').delay(5000).fadeOut('slow');
                             location.replace("/");
                          }
