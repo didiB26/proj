@@ -3,6 +3,7 @@ package com.dana.proj.proj.controller;
 import com.dana.proj.proj.model.ImagePost;
 import com.dana.proj.proj.service.ImagePersistenceService;
 import com.dana.proj.proj.service.ImagePostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -21,14 +22,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 public class ImagePostController {
 
     @Autowired
-    private ImagePostService imagePostService;
+    private final ImagePostService imagePostService;
 
     @Autowired
-    private ImagePersistenceService imageSavingService;
+    private final ImagePersistenceService imageSavingService;
 
     @Value("${upload.dir}")
     private String uploadFolder;
@@ -88,7 +90,6 @@ public class ImagePostController {
     public String showPost(@PathVariable("id") Long id, HttpServletResponse response, Model model) throws ServletException, IOException {
         ImagePost imagePost = imagePostService.getImageById(id);
         model.addAttribute("imagePost", imagePost);
-
         return "imagePost";
     }
 
