@@ -1,4 +1,4 @@
-package com.dana.proj.proj.service;
+package com.dana.proj.proj.service.persistence;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

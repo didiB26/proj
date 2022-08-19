@@ -1,8 +1,7 @@
 package com.dana.proj.proj.controller;
 
 import com.dana.proj.proj.model.ImagePost;
-import com.dana.proj.proj.service.ImagePersistenceService;
-import com.dana.proj.proj.service.ImagePostService;
+import com.dana.proj.proj.service.ImagePostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,22 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
 public class ImagePostController {
 
     @Autowired
-    private final ImagePostService imagePostService;
-
-    @Autowired
-    private final ImagePersistenceService imageSavingService;
+    private final ImagePostServiceImpl imagePostService;
 
     @Value("${upload.dir}")
     private String uploadFolder;
 
-    //API used to display images in a table; need to modify it so I can use RestController instead of Controller
+    //API used to display images in a table; used only temporary, will use RestController instead of Controller
     @GetMapping("/")
     public String images(Model map) {
         List<ImagePost> images = imagePostService.getAllActiveImages();
@@ -67,7 +62,7 @@ public class ImagePostController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-            imageSavingService.saveImage(name, file, uploadFolder);
+        imagePostService.saveImage(name, file, uploadFolder);
 
             //vreau reddirect - nu merge -- treaba de jos e folosita vreodata?
             HttpHeaders header = new HttpHeaders();
@@ -85,7 +80,7 @@ public class ImagePostController {
         response.getOutputStream().close();
     }
 
-    ///vreau sa returnez informatii doar pentru o singura postare
+    ///Not implemented fully yet
     @GetMapping("/display/post/{id}")
     public String showPost(@PathVariable("id") Long id, HttpServletResponse response, Model model) throws ServletException, IOException {
         ImagePost imagePost = imagePostService.getImageById(id);
