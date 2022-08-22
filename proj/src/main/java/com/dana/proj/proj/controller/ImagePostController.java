@@ -72,4 +72,10 @@ public class ImagePostController {
         return new ResponseEntity<>(imagePostService.getImageById(id), HttpStatus.OK);
     }
 
+    @PatchMapping("/likeImage")
+    public ResponseEntity<String> likeImagePost(Long id) {
+        imagePostService.likeImagePost(id);
+        return new ResponseEntity<>("Liked picture!", HttpStatus.OK);
+    }
+
 }

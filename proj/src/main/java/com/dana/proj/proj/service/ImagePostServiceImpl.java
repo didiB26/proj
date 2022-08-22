@@ -68,4 +68,11 @@ public class ImagePostServiceImpl implements ImagePostService{
         //return imagedata;
 
     }
+
+    @Override
+    public void likeImagePost(Long id) {
+        ImagePost imagePost = getImageById(id);
+        imagePost.incrementCounting();
+        imagePostRepository.save(imagePost);
+    }
 }

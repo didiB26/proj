@@ -9,4 +9,5 @@ public interface ImagePostService {
     void saveImage(String name, MultipartFile file, String uploadFolder);
     List<ImagePost> getAllActiveImages();
     ImagePost getImageById(Long id);
+    void likeImagePost(Long id);
 }
