@@ -21,11 +21,11 @@ public class ImageSavingLocalImpl implements ImagePersistenceService {
 
     @Autowired
     private final ImagePostRepository imagePostRepository;
-
     @Autowired
     private final HelperClass helperClassMethods;
     @Override
     public void saveImage(String name, MultipartFile file, String uploadFolder) {
+        helperClassMethods.allInputCheckers(name, file, uploadFolder);
         //creating objects
         ImagePost imagePost = new ImagePost();
         Date createDate = new Date();
@@ -36,9 +36,9 @@ public class ImageSavingLocalImpl implements ImagePersistenceService {
 
         //setting imagePost info's
         imagePost.setName(name);
-        //I set imageSize to null
+        //set imageSize to null
         imagePost.setImageSize(null);
-        imagePost.setDate(createDate);
+        imagePost.setCreateDate(createDate);
         imagePost.setImagePath(filePath);
 
         //saving locally the image

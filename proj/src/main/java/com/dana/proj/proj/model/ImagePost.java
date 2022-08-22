@@ -1,10 +1,19 @@
 package com.dana.proj.proj.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.*;
 
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 @Table(name = "image_post")
 public class ImagePost {
 
@@ -32,61 +41,13 @@ public class ImagePost {
     @OneToMany(mappedBy = "imagePost", cascade = CascadeType.ALL)
     private List<ImageComment> comments = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getDate() {
-        return createDate;
-    }
-
-    public void setDate(Date date) {
-        this.createDate = date;
-    }
-
-    public byte[] getImageSize() {
-        return imageSize;
-    }
-
-    public void setImageSize(byte[] imageSize) {
-        this.imageSize = imageSize;
-    }
-
-    public int getCounting() {
-        return counting;
-    }
-////e necesar setter pt counting? nu cred
-    public void setCounting(int counting) {
-        this.counting = counting;
-    }
-
     public int incrementCounting(){
         this.counting++;
         return this.counting;
     }
 
-    public List<ImageComment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<ImageComment> comments) {
-        this.comments = comments;
-    }
-
-
 //to be included for https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+//The following 2 methods I do not know yet how to use and why are necesarry
     public void addComment(ImageComment comment) {
         comments.add(comment);
         comment.setImagePost(this);
@@ -95,26 +56,6 @@ public class ImagePost {
     public void removeComment(ImageComment comment) {
         comments.remove(comment);
         comment.setImagePost(null);
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    @Override
-    public String toString() {
-        return "ImagePost{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", counting=" + counting +
-                ", createDate=" + createDate +
-                ", imageSize=" + Arrays.toString(imageSize) +
-                ", comments=" + comments +
-                '}';
     }
 
 }

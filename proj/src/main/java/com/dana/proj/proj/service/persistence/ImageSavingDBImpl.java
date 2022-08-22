@@ -28,19 +28,18 @@ public class ImageSavingDBImpl implements ImagePersistenceService {
 
     @Override
     public void saveImage(String name, MultipartFile file, String uploadFolder) {
+        helperClassMethods.allInputCheckers(name, file, uploadFolder);
         //creating objects
         ImagePost imagePost = new ImagePost();
         Date createDate = new Date();
         //pulling all data needed for imagePost setters
         byte[] imageData = helperClassMethods.readingImageSize(file);
-        String fileName = file.getOriginalFilename();
-        String filePath = Paths.get(uploadFolder, fileName).toString();
 
         //setting imagePost info's
         imagePost.setName(name);
         imagePost.setImageSize(imageData);
-        imagePost.setDate(createDate);
-        //I set imageSize to null
+        imagePost.setCreateDate(createDate);
+        //set imagePath to null
         imagePost.setImagePath(null);
 
         imagePostRepository.save(imagePost);

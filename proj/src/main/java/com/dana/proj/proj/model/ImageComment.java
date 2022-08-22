@@ -1,10 +1,19 @@
 package com.dana.proj.proj.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 @Table(name = "image_comm")
 public class ImageComment {
 
@@ -16,42 +25,14 @@ public class ImageComment {
     @Column(name = "text_comm", nullable = false)
     private String textComm;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date", nullable = false)
+    private Date createDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id")
     @JsonBackReference
-    //annotation complet necesara
+    //needed this annotation for jackson error
     private ImagePost imagePost;
 
-    public Long getIdComm() {
-        return idComm;
-    }
-
-    public void setIdComm(Long idComm) {
-        this.idComm = idComm;
-    }
-
-    public String getTextComm() {
-        return textComm;
-    }
-
-    public void setTextComm(String textComm) {
-        this.textComm = textComm;
-    }
-
-    public ImagePost getImagePost() {
-        return imagePost;
-    }
-
-    public void setImagePost(ImagePost imagePost) {
-        this.imagePost = imagePost;
-    }
-
-    @Override
-    public String toString() {
-        return "ImageComment{" +
-                "idComm=" + idComm +
-                ", textComm='" + textComm + '\'' +
-                ", imagePost=" + imagePost +
-                '}';
-    }
 }

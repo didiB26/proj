@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,22 +29,22 @@ public class ImagePostServiceImpl implements ImagePostService{
     }
 
     public List<ImagePost> getAllActiveImages() {
-        //de verificat aici la toate
+        //must modify so it can pull image from local?
         return imagePostRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
+    //must modify
     public ImagePost getImageById(Long id) {
         Optional<ImagePost> imagePostDB = imagePostRepository.findById(id);
         if (imagePostDB.isPresent()) {
             checkPersistenceImagePost(imagePostDB.get());
             return imagePostDB.get();
         } else {
-            throw new RuntimeException("Image not found with id : " + id);
+            throw new NoSuchElementException("Image not found with id : " + id);
         }
     }
 
-
-
+    //helper to check how image was stored in db
     public void checkPersistenceImagePost(ImagePost imagePost) {
         byte[] imagedata = null;
         if (imagePost.getImageSize() == null) {

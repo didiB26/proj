@@ -16,12 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/")
 public class ImagePostController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class ImagePostController {
     @Value("${upload.dir}")
     private String uploadFolder;
 
-    //API used to display images in a table; used only temporary, will use RestController instead of Controller
+    //Temporary API which return a model
     @GetMapping("/")
     public String images(Model map) {
         List<ImagePost> images = imagePostService.getAllActiveImages();
@@ -38,11 +38,7 @@ public class ImagePostController {
         return "images";
     }
 
-    @GetMapping("/show2")
-    public ResponseEntity<List<ImagePost>> getAll() {
-        return new ResponseEntity<>(imagePostService.getAllActiveImages(), HttpStatus.OK);
-    }
-
+    //Temporary API which return a model
     @GetMapping("/addImage")
     public ModelAndView addImage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -50,27 +46,18 @@ public class ImagePostController {
         return modelAndView;
     }
 
+    @GetMapping("/show")
+    public ResponseEntity<List<ImagePost>> getAll() {
+        return new ResponseEntity<>(imagePostService.getAllActiveImages(), HttpStatus.OK);
+    }
+
     @PostMapping("/submitImage")
     public @ResponseBody ResponseEntity<?> createImage(@RequestParam("name") String name, final @RequestParam("image") MultipartFile file) {
-        File dir = new File(uploadFolder);
-        try {
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            //to modify this - display error and response entity - ;runtime
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         imagePostService.saveImage(name, file, uploadFolder);
+        return new ResponseEntity<>("Image saved!", HttpStatus.OK);
+    }
 
-            //vreau reddirect - nu merge -- treaba de jos e folosita vreodata?
-            HttpHeaders header = new HttpHeaders();
-            header.add("Location", "/");
-            //return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
-            return new ResponseEntity<>(header, HttpStatus.OK);
-        }
-
+    //to modify this in order to work with images saved locally
     @GetMapping("/display/{id}")
     @ResponseBody
     public void showImage(@PathVariable("id") Long id, HttpServletResponse response) throws ServletException, IOException {
@@ -80,13 +67,9 @@ public class ImagePostController {
         response.getOutputStream().close();
     }
 
-    ///Not implemented fully yet
     @GetMapping("/display/post/{id}")
-    public String showPost(@PathVariable("id") Long id, HttpServletResponse response, Model model) throws ServletException, IOException {
-        ImagePost imagePost = imagePostService.getImageById(id);
-        model.addAttribute("imagePost", imagePost);
-        return "imagePost";
+    public ResponseEntity<?> showPost(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(imagePostService.getImageById(id), HttpStatus.OK);
     }
-
 
 }
