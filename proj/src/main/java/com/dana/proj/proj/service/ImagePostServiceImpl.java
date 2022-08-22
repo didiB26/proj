@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -37,7 +40,9 @@ public class ImagePostServiceImpl implements ImagePostService{
     public ImagePost getImageById(Long id) {
         Optional<ImagePost> imagePostDB = imagePostRepository.findById(id);
         if (imagePostDB.isPresent()) {
-            checkPersistenceImagePost(imagePostDB.get());
+            byte[] imagedata = checkPersistenceImagePost(imagePostDB.get());
+            ///blob in database? how?
+            imagePostDB.get().setImageSize(imagedata);
             return imagePostDB.get();
         } else {
             throw new NoSuchElementException("Image not found with id : " + id);
@@ -45,28 +50,16 @@ public class ImagePostServiceImpl implements ImagePostService{
     }
 
     //helper to check how image was stored in db
-    public void checkPersistenceImagePost(ImagePost imagePost) {
+    public byte[] checkPersistenceImagePost(ImagePost imagePost) {
         byte[] imagedata = null;
         if (imagePost.getImageSize() == null) {
-           // imagedata = readingImageSize(new File(imagePost.getImagePath()));
-            /*
-            BufferedInputStream bufferedInputStream = null;
             try {
-                bufferedInputStream = new BufferedInputStream(new FileInputStream(imagePost.getImagePath()));
-                bufferedInputStream.read(imagedata);
-                bufferedInputStream.close();
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                imagedata = Files.readAllBytes(Paths.get(imagePost.getImagePath()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
-             */
-
-        }
-        //return imagedata;
-
+            return imagedata;
+        } else return imagePost.getImageSize();
     }
 
     @Override
